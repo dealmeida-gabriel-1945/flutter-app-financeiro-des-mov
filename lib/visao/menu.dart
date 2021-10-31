@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login_screen/visao/gasto/cad_gasto.dart';
-import 'package:login_screen/visao/receita/cad_receita.dart';
-import 'package:login_screen/visao/tipo_gasto/cad_tipo_gasto.dart';
-import 'package:login_screen/visao/tipo_receita/cad_tipo_receita.dart';
 import 'package:login_screen/visao/principal.dart';
+import 'package:login_screen/visao/receita/cad_receita.dart';
 import 'package:login_screen/visao/relatorios.dart';
+import 'package:login_screen/visao/tipo_gasto/cad_tipo_gasto.dart';
 import 'package:login_screen/visao/tipo_receita/list_tipo_receita.dart';
 
 //indice de seleção da tela
