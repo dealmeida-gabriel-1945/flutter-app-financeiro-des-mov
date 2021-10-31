@@ -5,7 +5,7 @@ import 'package:login_screen/visao/widgets/delete_edit_dialog_tipo_receita.dart'
 
 class ListTipoReceita extends StatefulWidget {
 
-  final List<TipoReceita> _transferencias = [
+  final List<TipoReceita> _tiposDeReceita = [ //TODO: mudar para pegar dados do banco
     TipoReceita(id: 1, nome: 'TESTE 01', descricao: 'TESTE 01'),
     TipoReceita(id: 2, nome: 'TESTE 02', descricao: 'TESTE 02'),
     TipoReceita(id: 3, nome: 'TESTE 03', descricao: 'TESTE 03'),
@@ -24,9 +24,9 @@ class _ListTipoReceitaState extends State<ListTipoReceita> {
         title: const Text('Tipos de receita'),
       ),
       body: ListView.builder(
-        itemCount: widget._transferencias.length,
+        itemCount: widget._tiposDeReceita.length,
         itemBuilder: (context, index){
-          return ItemTipoReceita(widget._transferencias[index], context);
+          return ItemTipoReceita(widget._tiposDeReceita[index], context);
         }
       ),
       floatingActionButton: FloatingActionButton(

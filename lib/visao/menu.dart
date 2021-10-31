@@ -4,7 +4,7 @@ import 'package:login_screen/visao/gasto/cad_gasto.dart';
 import 'package:login_screen/visao/principal.dart';
 import 'package:login_screen/visao/receita/cad_receita.dart';
 import 'package:login_screen/visao/relatorios.dart';
-import 'package:login_screen/visao/tipo_gasto/cad_tipo_gasto.dart';
+import 'package:login_screen/visao/tipo_gasto/list_tipo_gasto.dart';
 import 'package:login_screen/visao/tipo_receita/list_tipo_receita.dart';
 
 //indice de seleção da tela
@@ -15,9 +15,8 @@ List<Widget> _stOptions = <Widget>[
   Principal(),
   CadGasto(),
   CadReceita(),
-  CadTipoGasto(),
-  // CadTipoReceita(),
   ListTipoReceita(),
+  ListTipoGasto(),
   Relatorios(),
 ];
 
