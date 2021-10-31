@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
 
 class CadTipoReceita extends StatefulWidget {
@@ -49,12 +50,10 @@ class _CadTipoReceitaState extends State<CadTipoReceita> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              var tipoGasto = TipoReceita(
+              TipoReceitaContoller.save(TipoReceita(
                   nome: _nomeController.text,
                   descricao: _descricaoController.text
-              );
-              debugPrint('pressionado');//TODO salvar no banco
-              debugPrint('$tipoGasto');
+              )).then((value) => Navigator.pop(context));
             },
           ),
         );

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/tipo_gasto_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
 
 class DeleteEditDialogTipoGasto extends StatelessWidget {
 
   final TipoGasto _tipoGasto;
+  final _onEnd;
 
 
-  DeleteEditDialogTipoGasto(this._tipoGasto);
+  DeleteEditDialogTipoGasto(this._tipoGasto, this._onEnd);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,11 @@ class DeleteEditDialogTipoGasto extends StatelessWidget {
         TextButton(
           child: const Text('Excluir'),
           onPressed: () {
-            debugPrint('clicou para excluir');//TODO
+            TipoGastoContoller.delete(_tipoGasto.id)
+                .then((value) {
+              _onEnd();
+              Navigator.of(context).pop();
+            });
           },
         ),
         TextButton(

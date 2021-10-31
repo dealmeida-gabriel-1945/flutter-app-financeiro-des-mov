@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/tipo_gasto_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
 
 class CadTipoGasto extends StatefulWidget {
@@ -49,12 +50,10 @@ class _CadTipoGastoState extends State<CadTipoGasto> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              var tipoGasto = TipoGasto(
+              TipoGastoContoller.save(TipoGasto(
                   nome: _nomeController.text,
                   descricao: _descricaoController.text
-              );
-              debugPrint('pressionado');
-              debugPrint('$tipoGasto');
+              )).then((value) => Navigator.pop(context));
             },
           ),
         );

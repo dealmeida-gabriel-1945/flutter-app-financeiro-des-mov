@@ -14,7 +14,7 @@ class _SplashState extends State<Splash> {
     super.initState();
 
     //espera 3 segundos do splash
-    Future.delayed(const Duration(seconds: 3)).then((_) {
+    Future.delayed(const Duration(seconds: 1)).then((_) {
       //muda para a proxima tela
       Navigator.pushReplacement(
           context,
