@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/tipo_gasto_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
 import 'package:login_screen/visao/tipo_gasto/cad_tipo_gasto.dart';
+import 'package:login_screen/visao/widgets/activity_indicator.dart';
 import 'package:login_screen/visao/widgets/delete_edit_dialog_tipo_gasto.dart';
+import 'package:login_screen/visao/widgets/item_list_place_holder.dart';
 
 class ListTipoGasto extends StatefulWidget {
-
-  final List<TipoGasto> _tipoDeGasto = [//TODO: mudar para pegar dados do banco
-    TipoGasto(id: 1, nome: 'TESTE 01', descricao: 'TESTE 01'),
-    TipoGasto(id: 2, nome: 'TESTE 02', descricao: 'TESTE 02'),
-    TipoGasto(id: 3, nome: 'TESTE 03', descricao: 'TESTE 03'),
-    TipoGasto(id: 4, nome: 'TESTE 04', descricao: 'TESTE 04'),
-  ];
 
   @override
   State<ListTipoGasto> createState() => _ListTipoGastoState();
@@ -23,11 +19,29 @@ class _ListTipoGastoState extends State<ListTipoGasto> {
       appBar: AppBar(
         title: const Text('Tipos de gasto'),
       ),
-      body: ListView.builder(
-        itemCount: widget._tipoDeGasto.length,
-        itemBuilder: (context, index){
-          return ItemTipoGasto(widget._tipoDeGasto[index], context);
-        }
+      body: FutureBuilder(
+        initialData: const [],
+        future: TipoGastoContoller.findAll(),
+        builder: (context, snapshot){
+          switch(snapshot.connectionState){
+            case ConnectionState.done:
+              var tipos = [];
+              if (snapshot.data != null){
+                tipos = snapshot.data as List<TipoGasto>;
+              }
+              if(tipos.isEmpty){
+                return const ItemListPlaceHolder();
+              }
+              return ListView.builder(
+                  itemCount: tipos.length,
+                  itemBuilder: (context, index){
+                    return ItemTipoGasto(tipos[index], context, generateOnEnd());
+                  }
+              );
+            default:
+              return const ActivityIndicator();
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -36,10 +50,14 @@ class _ListTipoGastoState extends State<ListTipoGasto> {
             .push(
               MaterialPageRoute(builder: (context) => CadTipoGasto()
             )
-          ).then((value) => debugPrint('Buscar tipos de gasto do banco')); //TODO
+          ).then((value) => setState(() {}));
         },
       ),
     );
+  }
+
+  generateOnEnd(){
+    return () => setState((){});
   }
 }
 
@@ -47,8 +65,9 @@ class ItemTipoGasto extends StatelessWidget{
 
   final TipoGasto _tipoReceita;
   final _context;
+  final _onEnd;
 
-  ItemTipoGasto(this._tipoReceita, this._context);
+  ItemTipoGasto(this._tipoReceita, this._context, this._onEnd);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +77,7 @@ class ItemTipoGasto extends StatelessWidget{
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) => DeleteEditDialogTipoGasto(_tipoReceita)
+                builder: (context) => DeleteEditDialogTipoGasto(_tipoReceita, _onEnd)
               );
             },
             child: ListTile(

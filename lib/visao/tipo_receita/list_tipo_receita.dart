@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
 import 'package:login_screen/visao/tipo_receita/cad_tipo_receita.dart';
+import 'package:login_screen/visao/widgets/activity_indicator.dart';
 import 'package:login_screen/visao/widgets/delete_edit_dialog_tipo_receita.dart';
+import 'package:login_screen/visao/widgets/item_list_place_holder.dart';
 
 class ListTipoReceita extends StatefulWidget {
-
-  final List<TipoReceita> _tiposDeReceita = [ //TODO: mudar para pegar dados do banco
-    TipoReceita(id: 1, nome: 'TESTE 01', descricao: 'TESTE 01'),
-    TipoReceita(id: 2, nome: 'TESTE 02', descricao: 'TESTE 02'),
-    TipoReceita(id: 3, nome: 'TESTE 03', descricao: 'TESTE 03'),
-    TipoReceita(id: 4, nome: 'TESTE 04', descricao: 'TESTE 04'),
-  ];
 
   @override
   State<ListTipoReceita> createState() => _ListTipoReceitaState();
@@ -23,11 +19,31 @@ class _ListTipoReceitaState extends State<ListTipoReceita> {
       appBar: AppBar(
         title: const Text('Tipos de receita'),
       ),
-      body: ListView.builder(
-        itemCount: widget._tiposDeReceita.length,
-        itemBuilder: (context, index){
-          return ItemTipoReceita(widget._tiposDeReceita[index], context);
-        }
+      body: FutureBuilder(
+        initialData: const [],
+        future: TipoReceitaContoller.findAll(),
+        builder: (context, snapshot) {
+          switch(snapshot.connectionState){
+            case ConnectionState.done:
+              var tipos = [];
+              if (snapshot.data != null){
+                tipos = snapshot.data as List<TipoReceita>;
+              }
+              if(tipos.isEmpty){
+                return const ItemListPlaceHolder();
+              }
+              return ListView.builder(
+                  itemCount: tipos.length,
+                  itemBuilder: (context, index){
+                    return ItemTipoReceita(
+                      tipos[index], context, generateOnEnd()
+                    );
+                  }
+              );
+            default:
+              return const ActivityIndicator();
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -36,10 +52,14 @@ class _ListTipoReceitaState extends State<ListTipoReceita> {
             .push(
               MaterialPageRoute(builder: (context) => CadTipoReceita()
             )
-          ).then((value) => debugPrint('Buscar tipos de receita do banco')); //TODO
+          ).then((value) => setState(() {}));
         },
       ),
     );
+  }
+
+  generateOnEnd(){
+    return () => setState((){});
   }
 }
 
@@ -47,8 +67,9 @@ class ItemTipoReceita extends StatelessWidget{
 
   final TipoReceita _tipoReceita;
   final _context;
+  final _onEnd;
 
-  ItemTipoReceita(this._tipoReceita, this._context);
+  ItemTipoReceita(this._tipoReceita, this._context, this._onEnd);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +79,7 @@ class ItemTipoReceita extends StatelessWidget{
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) => DeleteEditDialogTipoReceita(_tipoReceita)
+                builder: (context) => DeleteEditDialogTipoReceita(_tipoReceita, _onEnd)
               );
             },
             child: ListTile(
@@ -71,3 +92,4 @@ class ItemTipoReceita extends StatelessWidget{
     );
   }
 }
+
