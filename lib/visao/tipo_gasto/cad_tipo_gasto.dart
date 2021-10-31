@@ -50,6 +50,7 @@ class _CadTipoGastoState extends State<CadTipoGasto> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
+              //TODO: verificações necessárias
               TipoGastoContoller.save(TipoGasto(
                   nome: _nomeController.text,
                   descricao: _descricaoController.text

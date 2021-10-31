@@ -2,10 +2,28 @@ import 'package:flutter/material.dart';
 
 class ActivityIndicator extends StatelessWidget {
 
-  const ActivityIndicator({Key? key,}) : super(key: key);
+  final bool hasScaffold;
+  final String appBarTitle;
+
+  ActivityIndicator([
+    this.hasScaffold = false,
+    this.appBarTitle = '',
+  ]);
 
   @override
   Widget build(BuildContext context) {
+    if(!hasScaffold){
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(appBarTitle),
+        ),
+        body: renderMainWidget(),
+      );
+    }
+    return renderMainWidget();
+  }
+
+  renderMainWidget(){
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
