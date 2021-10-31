@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
+import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
 class DeleteEditDialogTipoReceita extends StatelessWidget {
 
@@ -25,11 +26,17 @@ class DeleteEditDialogTipoReceita extends StatelessWidget {
         TextButton(
           child: const Text('Excluir'),
           onPressed: () {
-            TipoReceitaContoller.delete(_tipoReceita.id)
-              .then((value) {
-                _onEnd();
-                Navigator.of(context).pop();
-              });
+            showDialog(
+                context: context,
+                builder:
+                    (context) => YesNoDialog(
+                        () => TipoReceitaContoller.delete(_tipoReceita.id)
+                                  .then((value) {
+                                _onEnd();
+                                Navigator.of(context).pop();
+                              }),
+                        () => null)
+            );
           },
         ),
         TextButton(
