@@ -8,9 +8,9 @@ class TipoReceita{
   TipoReceita({this.id, this.nome, this.descricao});
 
   bool valido(){
-    return (nome.length > 5)
-        && (nome.length <= DatabaseConstants.varchar_column_size)
-        && (descricao.length <= DatabaseConstants.varchar_column_size);
+    return (nome.length >= DatabaseConstants.varchar_column_min_size)
+        && (nome.length <= DatabaseConstants.varchar_column_max_size)
+        && (descricao.length <= DatabaseConstants.text_column_size);
   }
 
   Map<String, dynamic> toMap() {
