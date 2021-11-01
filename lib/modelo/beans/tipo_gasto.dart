@@ -1,9 +1,17 @@
+import 'package:login_screen/util/database_constants.dart';
+
 class TipoGasto {
   final id;
   final nome;
   final descricao;
 
   TipoGasto({this.id, this.nome, this.descricao});
+
+  bool valido(){
+    return (nome.length > 5)
+        && (nome.length <= DatabaseConstants.varchar_column_size)
+        && (descricao.length <= DatabaseConstants.varchar_column_size);
+  }
 
   Map<String, dynamic> toMap() {
     return {

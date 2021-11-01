@@ -1,21 +1,30 @@
+import 'package:intl/intl.dart';
+import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
+import 'package:login_screen/modelo/beans/tipo_receita.dart';
+import 'package:login_screen/util/database_constants.dart';
+import 'package:login_screen/util/date_util.dart';
 
 class Receita{
   final id;
-  final observacoes;
+  final String observacoes;
   final dataHora;
   final valor;
-  final TipoGasto tipo;
+  final TipoReceita tipo;
 
   Receita(this.id, this.observacoes, this.dataHora, this.valor, this.tipo);
 
+  bool valido(){
+    return !((observacoes.length > DatabaseConstants.text_column_size)
+      || (valor <= 0) || (tipo.id == null));
+  }
+
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'observacoes': observacoes,
-      'data_hora': dataHora,
+      'data_hora': DateUtil.dateToDatabase(dataHora),
       'valor': valor,
-      'tipo_gasto_id': tipo.id,
+      'tipo_receita_id': tipo.id,
     };
   }
 
@@ -28,9 +37,13 @@ class Receita{
     return Receita(
         map['id'],
         map['observacoes'],
-        map['data_hora'],
+        DateUtil.dateFromDatabaseToDartDateTime(map['data_hora']),
         map['valor'],
-        TipoGasto(id: map['tipo_gasto_id'])
+        TipoReceita(
+          id: map['tipoId'],
+          nome: map['tipoNome'],
+          descricao: map['tipoDescricao'],
+        )
     );
   }
 }

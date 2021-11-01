@@ -3,7 +3,7 @@ import 'package:login_screen/controle/app_database.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
 
 class TipoGastoContoller {
-  static String _table_name = 'tipo_gasto';
+  static const String _table_name = 'tipo_gasto';
 
   static Future<int> save(TipoGasto tipoGasto){
     return createDatabase.then((db) {

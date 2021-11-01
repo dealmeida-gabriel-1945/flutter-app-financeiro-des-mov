@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:login_screen/controle/receita_controller.dart';
 import 'package:login_screen/controle/tipo_receita_controller.dart';
+import 'package:login_screen/modelo/beans/receita.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
 import 'package:login_screen/visao/widgets/activity_indicator.dart';
 import 'package:login_screen/visao/widgets/error_dialog.dart';
@@ -15,7 +17,7 @@ class CadReceita extends StatefulWidget {
 
 class _CadReceitaState extends State<CadReceita> {
   final TextEditingController _observacoesController = TextEditingController();
-  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _valorController = TextEditingController();
   
   var _dataValue = DateTime.now();
   final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
@@ -64,14 +66,30 @@ class _CadReceitaState extends State<CadReceita> {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: () {
-        //TODO: verificações necessárias
-        TipoReceitaContoller.save(TipoReceita(
-            nome: _nomeController.text,
-            descricao: _observacoesController.text
-        )).then((value) => Navigator.pop(context));
+        final valor = double.tryParse(_valorController.text) ?? 0;
+        final dataHora = DateTime(
+            _dataValue.year, _dataValue.month, _dataValue.day,
+            _horaValue.hour, _horaValue.minute);
+        final newReceita = Receita(
+          0, _observacoesController.text, dataHora, valor,
+          TipoReceita(id: _tipoDeReceitaController)
+        );
+        if(newReceita.valido()) {
+          ReceitaContoller.save(newReceita)
+            .then((value) => Navigator.pop(context));
+        }else{
+          showDialog(
+              context: context,
+              builder:
+                  (context) => ErrorDialog(
+                  bodyText: 'Preencha os campos corretamente!'
+              )
+          );
+        }
       },
     );
   }
+
 
   renderForm(){
     return Scaffold(
@@ -121,7 +139,7 @@ class _CadReceitaState extends State<CadReceita> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: _nomeController,
+                controller: _valorController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: 'Valor',

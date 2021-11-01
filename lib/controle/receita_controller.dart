@@ -1,26 +1,33 @@
 
 import 'package:login_screen/controle/app_database.dart';
+import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/receita.dart';
 
 class ReceitaContoller {
-  static String _table_name = 'receita';
+  static const String table_name = 'receita';
 
   static Future<int> save(Receita receita){
     return createDatabase.then((db) {
-      return db.insert(_table_name, receita.toMap());
+      return db.insert(table_name, receita.toMap());
     });
   }
 
   static Future<List<Receita>> findAll(){
     return createDatabase.then((db) {
-      return db.query(_table_name)
-          .then((maps) => maps.map((e) => Receita.fromMap(e)).toList());
+      return db.rawQuery(
+        'SELECT receita.id as id, receita.observacoes as observacoes, receita.data_hora as data_hora, receita.valor as valor, '
+            'tipo.id as tipoId, tipo.nome as tipoNome, tipo.descricao as tipoDescricao '
+            'FROM $table_name as receita LEFT JOIN ${TipoReceitaContoller.table_name} as tipo'
+            ' ON receita.tipo_receita_id = tipo.id;'
+      ).then((maps) =>
+          maps.map((e) => Receita.fromMap(e)).toList()
+      );
     });
   }
 
   static Future<void> delete(int id){
     return createDatabase.then(
-      (db) => db.delete(_table_name, where: 'id = ?', whereArgs: [id])
+      (db) => db.delete(table_name, where: 'id = ?', whereArgs: [id])
     );
   }
 }

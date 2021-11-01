@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_screen/controle/tipo_gasto_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
+import 'package:login_screen/visao/widgets/error_dialog.dart';
 
 class CadTipoGasto extends StatefulWidget {
 
@@ -50,11 +51,22 @@ class _CadTipoGastoState extends State<CadTipoGasto> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              //TODO: verificações necessárias
-              TipoGastoContoller.save(TipoGasto(
+              final newTipoGasto = TipoGasto(
                   nome: _nomeController.text,
                   descricao: _descricaoController.text
-              )).then((value) => Navigator.pop(context));
+              );
+
+              if(newTipoGasto.valido()){
+                TipoGastoContoller.save(newTipoGasto).then((value) => Navigator.pop(context));
+              }else{
+                showDialog(
+                    context: context,
+                    builder:
+                        (context) => ErrorDialog(
+                        bodyText: 'Preencha os campos corretamente!'
+                    )
+                );
+              }
             },
           ),
         );

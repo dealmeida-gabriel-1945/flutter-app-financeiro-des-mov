@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_screen/controle/receita_controller.dart';
 import 'package:login_screen/modelo/beans/receita.dart';
+import 'package:login_screen/util/date_util.dart';
 import 'package:login_screen/visao/receita/cad_receita.dart';
 import 'package:login_screen/visao/widgets/activity_indicator.dart';
 import 'package:login_screen/visao/widgets/delete_edit_dialog_receita.dart';
@@ -81,8 +82,8 @@ class ItemReceita extends StatelessWidget{
               );
             },
             child: ListTile(
-              leading: const Icon(Icons.money_off),
-              title: Text(_receita.dataHora),
+              leading: const Icon(Icons.attach_money),
+              title: Text('#${_receita.id} ${DateUtil.dateToShow(_receita.dataHora)} (${_receita.tipo.nome})'),
               subtitle: Text('R\$${_receita.valor}'),
             ),
           ),

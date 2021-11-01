@@ -13,11 +13,11 @@ const create_tipo_gasto_tb = 'CREATE TABLE tipo_gasto('
 
 const create_receita_tb = 'CREATE TABLE receita('
     'id INTEGER PRIMARY KEY, '
-    'tipo_gasto_id INTEGER, '
+    'tipo_receita_id INTEGER, '
     'observacoes TEXT, '
-    'dataHora TIMESTAMP,'
+    'data_hora TIMESTAMP,'
     'valor FLOAT,'
-    'FOREIGN KEY(tipo_gasto_id) REFERENCES tipo_receita(id));';
+    'FOREIGN KEY(tipo_receita_id) REFERENCES tipo_receita(id));';
 
 final Future<Database> createDatabase = getDatabasesPath().then((dbPath) {
     final String path = join(dbPath, 'des_mov_db.db');
