@@ -1,43 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:login_screen/controle/tipo_receita_controller.dart';
-import 'package:login_screen/modelo/beans/tipo_receita.dart';
-import 'package:login_screen/visao/tipo_receita/cad_tipo_receita.dart';
+import 'package:login_screen/controle/receita_controller.dart';
+import 'package:login_screen/modelo/beans/receita.dart';
+import 'package:login_screen/util/date_util.dart';
+import 'package:login_screen/visao/receita/cad_receita.dart';
 import 'package:login_screen/visao/widgets/activity_indicator.dart';
-import 'package:login_screen/visao/widgets/delete_edit_dialog_tipo_receita.dart';
+import 'package:login_screen/visao/widgets/delete_edit_dialog_receita.dart';
 import 'package:login_screen/visao/widgets/item_list_place_holder.dart';
 
-class ListTipoReceita extends StatefulWidget {
+class ListReceita extends StatefulWidget {
 
   @override
-  State<ListTipoReceita> createState() => _ListTipoReceitaState();
+  State<ListReceita> createState() => _ListReceitaState();
 }
 
-class _ListTipoReceitaState extends State<ListTipoReceita> {
+class _ListReceitaState extends State<ListReceita> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tipos de receita'),
+        title: const Text('Receitas'),
       ),
       body: FutureBuilder(
         initialData: const [],
-        future: TipoReceitaContoller.findAll(),
-        builder: (context, snapshot) {
+        future: ReceitaContoller.findAll(),
+        builder: (context, snapshot){
           switch(snapshot.connectionState){
             case ConnectionState.done:
-              var tipos = [];
+              var receitas = [];
               if (snapshot.data != null){
-                tipos = snapshot.data as List<TipoReceita>;
+                receitas = snapshot.data as List<Receita>;
               }
-              if(tipos.isEmpty){
+              if(receitas.isEmpty){
                 return const ItemListPlaceHolder();
               }
               return ListView.builder(
-                  itemCount: tipos.length,
+                  itemCount: receitas.length,
                   itemBuilder: (context, index){
-                    return ItemTipoReceita(
-                      tipos[index], context, generateOnEnd()
-                    );
+                    return ItemReceita(receitas[index], context, generateOnEnd());
                   }
               );
             default:
@@ -50,7 +49,7 @@ class _ListTipoReceitaState extends State<ListTipoReceita> {
         onPressed: () {
           Navigator.of(context)
             .push(
-              MaterialPageRoute(builder: (context) => CadTipoReceita()
+              MaterialPageRoute(builder: (context) => CadReceita()
             )
           ).then((value) => setState(() {}));
         },
@@ -63,13 +62,13 @@ class _ListTipoReceitaState extends State<ListTipoReceita> {
   }
 }
 
-class ItemTipoReceita extends StatelessWidget{
+class ItemReceita extends StatelessWidget{
 
-  final TipoReceita _tipoReceita;
+  final Receita _receita;
   final _context;
   final _onEnd;
 
-  ItemTipoReceita(this._tipoReceita, this._context, this._onEnd);
+  ItemReceita(this._receita, this._context, this._onEnd);
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +78,16 @@ class ItemTipoReceita extends StatelessWidget{
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) => DeleteEditDialogTipoReceita(_tipoReceita, _onEnd)
+                builder: (context) => DeleteEditDialogReceita(_receita, _onEnd)
               );
             },
             child: ListTile(
-              leading: const Icon(Icons.monetization_on),
-              title: Text(_tipoReceita.nome),
-              subtitle: Text(_tipoReceita.descricao),
+              leading: const Icon(Icons.attach_money),
+              title: Text('#${_receita.id} ${DateUtil.dateToShow(_receita.dataHora)} (${_receita.tipo.nome})'),
+              subtitle: Text('R\$${_receita.valor}'),
             ),
           ),
         )
     );
   }
 }
-

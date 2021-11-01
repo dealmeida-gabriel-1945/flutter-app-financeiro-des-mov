@@ -39,7 +39,7 @@ class _ListTipoGastoState extends State<ListTipoGasto> {
                   }
               );
             default:
-              return const ActivityIndicator();
+              return ActivityIndicator();
           }
         },
       ),
@@ -63,11 +63,11 @@ class _ListTipoGastoState extends State<ListTipoGasto> {
 
 class ItemTipoGasto extends StatelessWidget{
 
-  final TipoGasto _tipoReceita;
+  final TipoGasto _tipoGasto;
   final _context;
   final _onEnd;
 
-  ItemTipoGasto(this._tipoReceita, this._context, this._onEnd);
+  ItemTipoGasto(this._tipoGasto, this._context, this._onEnd);
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +77,13 @@ class ItemTipoGasto extends StatelessWidget{
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) => DeleteEditDialogTipoGasto(_tipoReceita, _onEnd)
+                builder: (context) => DeleteEditDialogTipoGasto(_tipoGasto, _onEnd)
               );
             },
             child: ListTile(
               leading: const Icon(Icons.money_off),
-              title: Text(_tipoReceita.nome),
-              subtitle: Text(_tipoReceita.descricao),
+              title: Text(_tipoGasto.nome),
+              subtitle: Text(_tipoGasto.descricao),
             ),
           ),
         )

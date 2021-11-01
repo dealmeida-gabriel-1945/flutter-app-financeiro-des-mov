@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
+import 'package:login_screen/visao/widgets/error_dialog.dart';
 
 class CadTipoReceita extends StatefulWidget {
 
@@ -50,10 +51,21 @@ class _CadTipoReceitaState extends State<CadTipoReceita> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              TipoReceitaContoller.save(TipoReceita(
+              final newTipoReceita = TipoReceita(
                   nome: _nomeController.text,
                   descricao: _descricaoController.text
-              )).then((value) => Navigator.pop(context));
+              );
+              if(newTipoReceita.valido()){
+                TipoReceitaContoller.save(newTipoReceita).then((value) => Navigator.pop(context));
+              }else{
+                showDialog(
+                    context: context,
+                    builder:
+                        (context) => ErrorDialog(
+                        bodyText: 'Preencha os campos corretamente!'
+                    )
+                );
+              }
             },
           ),
         );
