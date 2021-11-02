@@ -13,11 +13,19 @@ const create_tipo_gasto_tb = 'CREATE TABLE tipo_gasto('
 
 const create_receita_tb = 'CREATE TABLE receita('
     'id INTEGER PRIMARY KEY, '
-    'tipo_receita_id INTEGER, '
+    'tipo_receita_id INTEGER NOT NULL, '
     'observacoes TEXT, '
     'data_hora TIMESTAMP,'
     'valor FLOAT,'
     'FOREIGN KEY(tipo_receita_id) REFERENCES tipo_receita(id));';
+
+const create_gasto_tb = 'CREATE TABLE gasto('
+    'id INTEGER PRIMARY KEY, '
+    'tipo_gasto_id INTEGER NOT NULL, '
+    'observacoes TEXT, '
+    'data_hora TIMESTAMP,'
+    'valor FLOAT,'
+    'FOREIGN KEY(tipo_gasto_id) REFERENCES tipo_gasto(id));';
 
 final Future<Database> createDatabase = getDatabasesPath().then((dbPath) {
     final String path = join(dbPath, 'des_mov_db.db');
@@ -25,6 +33,7 @@ final Future<Database> createDatabase = getDatabasesPath().then((dbPath) {
       db.execute(create_tipo_receita_tb);
       db.execute(create_tipo_gasto_tb);
       db.execute(create_receita_tb);
+      db.execute(create_gasto_tb);
     }, version: 1);
   });
 

@@ -1,6 +1,3 @@
-import 'package:intl/intl.dart';
-import 'package:login_screen/controle/tipo_receita_controller.dart';
-import 'package:login_screen/modelo/beans/tipo_gasto.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
 import 'package:login_screen/util/database_constants.dart';
 import 'package:login_screen/util/date_util.dart';

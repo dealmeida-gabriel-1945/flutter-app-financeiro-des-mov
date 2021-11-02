@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login_screen/visao/gasto/cad_gasto.dart';
+import 'package:login_screen/visao/gasto/list_gasto.dart';
 import 'package:login_screen/visao/principal.dart';
 import 'package:login_screen/visao/receita/list_receita.dart';
 import 'package:login_screen/visao/relatorios.dart';
@@ -14,7 +14,7 @@ int _selectedIndex = 0;
 List<Widget> _stOptions = <Widget>[
   Principal(),
   ListReceita(),
-  CadGasto(),
+  ListGasto(),
   ListTipoReceita(),
   ListTipoGasto(),
   Relatorios(),
