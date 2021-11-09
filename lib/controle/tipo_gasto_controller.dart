@@ -23,4 +23,13 @@ class TipoGastoContoller {
       (db) => db.delete(table_name, where: 'id = ?', whereArgs: [id])
     );
   }
+
+  static Future<int> update(TipoGasto tipoGasto){
+    return createDatabase.then((db) {
+      return db.update(
+          table_name, tipoGasto.toMap(),
+          where: 'id = ?', whereArgs: [tipoGasto.id]
+      );
+    });
+  }
 }

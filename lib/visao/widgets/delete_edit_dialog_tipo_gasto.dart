@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_screen/controle/gasto_controller.dart';
 import 'package:login_screen/controle/tipo_gasto_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
+import 'package:login_screen/visao/tipo_gasto/edit_tipo_gasto.dart';
 import 'package:login_screen/visao/widgets/error_dialog.dart';
 import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
@@ -39,9 +40,14 @@ class DeleteEditDialogTipoGasto extends StatelessWidget {
         ),
         TextButton(
           child: const Text('Editar'),
-          onPressed: () {
-            debugPrint('clicou para editar');//TODO
-          },
+          onPressed: () =>
+            Navigator.of(context)
+              .push(
+                  MaterialPageRoute(builder: (context) => EditTipoGasto(_tipoGasto)
+              )).then((value) {
+                Navigator.of(context).pop();
+                _onEnd();
+              }),
         ),
         TextButton(
           child: const Text('Cancelar'),

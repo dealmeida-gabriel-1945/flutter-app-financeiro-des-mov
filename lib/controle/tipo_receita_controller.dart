@@ -10,7 +10,6 @@ class TipoReceitaContoller {
       return db.insert(table_name, tipoReceita.toMap());
     });
   }
-
   static Future<List<TipoReceita>> findAll(){
     return createDatabase.then((db) {
       return db.query(table_name)
@@ -22,5 +21,14 @@ class TipoReceitaContoller {
     return createDatabase.then(
       (db) => db.delete(table_name, where: 'id = ?', whereArgs: [id])
     );
+  }
+
+  static Future<int> update(TipoReceita tipoReceita){
+    return createDatabase.then((db) {
+      return db.update(
+          table_name, tipoReceita.toMap(),
+          where: 'id = ?', whereArgs: [tipoReceita.id]
+      );
+    });
   }
 }

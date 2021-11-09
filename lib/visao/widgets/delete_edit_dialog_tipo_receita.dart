@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_screen/controle/receita_controller.dart';
 import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
+import 'package:login_screen/visao/tipo_receita/edit_tipo_receita.dart';
 import 'package:login_screen/visao/widgets/error_dialog.dart';
 import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
@@ -39,9 +40,15 @@ class DeleteEditDialogTipoReceita extends StatelessWidget {
         ),
         TextButton(
           child: const Text('Editar'),
-          onPressed: () {
-            debugPrint('clicou para editar');//TODO
-          },
+          onPressed: () =>
+            Navigator.of(context)
+              .push(
+                MaterialPageRoute(builder: (context) => EditTipoReceita(_tipoReceita)
+              )
+            ).then((value) {
+              Navigator.of(context).pop();
+              _onEnd();
+            }),
         ),
         TextButton(
           child: const Text('Cancelar'),
