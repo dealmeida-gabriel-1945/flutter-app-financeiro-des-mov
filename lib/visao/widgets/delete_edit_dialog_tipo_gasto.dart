@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/gasto_controller.dart';
 import 'package:login_screen/controle/tipo_gasto_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_gasto.dart';
+import 'package:login_screen/visao/widgets/error_dialog.dart';
 import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
 class DeleteEditDialogTipoGasto extends StatelessWidget {
@@ -30,11 +32,7 @@ class DeleteEditDialogTipoGasto extends StatelessWidget {
                 context: context,
                 builder:
                   (context) => YesNoDialog(
-                        () => TipoGastoContoller.delete(_tipoGasto.id)
-                                .then((value) {
-                                    _onEnd();
-                                    Navigator.of(context).pop();
-                                }),
+                        () => deletarTipoGasto(context),
                         () => null)
             );
           },
@@ -52,6 +50,29 @@ class DeleteEditDialogTipoGasto extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  deletarTipoGasto(context){
+    GastoContoller.existsByTipo(_tipoGasto.id)
+      .then(
+        (existencia) {
+          if(!existencia){
+            TipoGastoContoller.delete(_tipoGasto.id)
+                .then((value) {
+              _onEnd();
+              Navigator.of(context).pop();
+            });
+          }else{
+            showDialog(
+              context: context,
+              builder: (context) =>
+                ErrorDialog(
+                  bodyText: 'Não é possível deletar  o registro de tipo de gasto pois há gastos utilizando tal dado'
+                )
+            );
+          }
+        }
     );
   }
 }

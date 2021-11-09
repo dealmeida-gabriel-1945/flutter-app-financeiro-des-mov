@@ -30,4 +30,22 @@ class ReceitaContoller {
       (db) => db.delete(table_name, where: 'id = ?', whereArgs: [id])
     );
   }
+
+  static Future<bool> existsByTipo(int idTipo){
+    return createDatabase.then((db) {
+      return db.rawQuery(
+        'SELECT COUNT(receita.id) as contagem '
+        'FROM $table_name as receita '
+        'WHERE receita.tipo_receita_id = $idTipo;'
+      ).then(
+        (maps) {
+          var contagem = int.tryParse(maps[0]['contagem'].toString() ?? '0');
+          if(contagem != null && contagem > 0){
+            return true;
+          }
+          return false;
+        }
+      );
+    });
+  }
 }

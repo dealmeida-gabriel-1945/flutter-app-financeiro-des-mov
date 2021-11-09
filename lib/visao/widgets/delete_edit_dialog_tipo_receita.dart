@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:login_screen/controle/receita_controller.dart';
 import 'package:login_screen/controle/tipo_receita_controller.dart';
 import 'package:login_screen/modelo/beans/tipo_receita.dart';
+import 'package:login_screen/visao/widgets/error_dialog.dart';
 import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
 class DeleteEditDialogTipoReceita extends StatelessWidget {
@@ -30,11 +32,7 @@ class DeleteEditDialogTipoReceita extends StatelessWidget {
                 context: context,
                 builder:
                     (context) => YesNoDialog(
-                        () => TipoReceitaContoller.delete(_tipoReceita.id)
-                                  .then((value) {
-                                _onEnd();
-                                Navigator.of(context).pop();
-                              }),
+                        () => deletarTipoReceita(context),
                         () => null)
             );
           },
@@ -52,6 +50,30 @@ class DeleteEditDialogTipoReceita extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  deletarTipoReceita(context) {
+
+    ReceitaContoller.existsByTipo(_tipoReceita.id)
+      .then(
+        (existencia) {
+          if(!existencia){
+            TipoReceitaContoller.delete(_tipoReceita.id)
+              .then((value) {
+              _onEnd();
+              Navigator.of(context).pop();
+            });
+          }else{
+            showDialog(
+              context: context,
+              builder: (context) =>
+                ErrorDialog(
+                  bodyText: 'Não é possível deletar  o registro de tipo de receita pois há receitas utilizando tal dado'
+                )
+            );
+          }
+      }
     );
   }
 }

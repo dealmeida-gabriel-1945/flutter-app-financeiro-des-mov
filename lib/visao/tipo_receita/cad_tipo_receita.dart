@@ -49,7 +49,7 @@ class _CadTipoReceitaState extends State<CadTipoReceita> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.check),
             onPressed: () {
               final newTipoReceita = TipoReceita(
                   nome: _nomeController.text,

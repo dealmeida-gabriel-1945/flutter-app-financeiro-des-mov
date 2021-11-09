@@ -63,7 +63,7 @@ class _CadGastoState extends State<CadGasto> {
       );
     }
     return FloatingActionButton(
-      child: const Icon(Icons.add),
+      child: const Icon(Icons.check),
       onPressed: () {
         final valor = double.tryParse(_valorController.text) ?? 0;
         final dataHora = DateTime(
