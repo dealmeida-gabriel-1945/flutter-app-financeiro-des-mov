@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_screen/controle/receita_controller.dart';
 import 'package:login_screen/modelo/beans/receita.dart';
+import 'package:login_screen/visao/receita/edit_receita.dart';
 import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
 class DeleteEditDialogReceita extends StatelessWidget {
@@ -41,9 +42,14 @@ class DeleteEditDialogReceita extends StatelessWidget {
         ),
         TextButton(
           child: const Text('Editar'),
-          onPressed: () {
-            debugPrint('clicou para editar');//TODO
-          },
+          onPressed: () =>
+              Navigator.of(context)
+                  .push(
+                  MaterialPageRoute(builder: (context) => EditReceita(_receita)
+                  )).then((value) {
+                Navigator.of(context).pop();
+                _onEnd();
+              }),
         ),
         TextButton(
           child: const Text('Cancelar'),

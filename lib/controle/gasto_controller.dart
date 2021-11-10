@@ -40,11 +40,17 @@ class GastoContoller {
       ).then(
         (maps) {
           var contagem = int.tryParse(maps[0]['contagem'].toString() ?? '0');
-          if(contagem != null && contagem > 0){
-            return true;
-          }
-          return false;
+          return contagem != null && contagem > 0;
         }
+      );
+    });
+  }
+
+  static Future<int> update(Gasto gasto){
+    return createDatabase.then((db) {
+      return db.update(
+          table_name, gasto.toMap(),
+          where: 'id = ?', whereArgs: [gasto.id]
       );
     });
   }

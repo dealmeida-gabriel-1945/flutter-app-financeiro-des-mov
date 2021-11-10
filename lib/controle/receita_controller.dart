@@ -40,11 +40,17 @@ class ReceitaContoller {
       ).then(
         (maps) {
           var contagem = int.tryParse(maps[0]['contagem'].toString() ?? '0');
-          if(contagem != null && contagem > 0){
-            return true;
-          }
-          return false;
+          return contagem != null && contagem > 0;
         }
+      );
+    });
+  }
+
+  static Future<int> update(Receita receita){
+    return createDatabase.then((db) {
+      return db.update(
+          table_name, receita.toMap(),
+          where: 'id = ?', whereArgs: [receita.id]
       );
     });
   }

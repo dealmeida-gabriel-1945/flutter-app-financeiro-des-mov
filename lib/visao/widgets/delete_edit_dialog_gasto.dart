@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_screen/controle/gasto_controller.dart';
 import 'package:login_screen/modelo/beans/gasto.dart';
+import 'package:login_screen/visao/gasto/edit_gasto.dart';
 import 'package:login_screen/visao/widgets/yes_no_dialog.dart';
 
 class DeleteEditDialogGasto extends StatelessWidget {
@@ -41,9 +42,14 @@ class DeleteEditDialogGasto extends StatelessWidget {
         ),
         TextButton(
           child: const Text('Editar'),
-          onPressed: () {
-            debugPrint('clicou para editar');//TODO
-          },
+          onPressed: () =>
+            Navigator.of(context)
+                .push(
+                MaterialPageRoute(builder: (context) => EditGasto(_gasto)
+                )).then((value) {
+              Navigator.of(context).pop();
+              _onEnd();
+            }),
         ),
         TextButton(
           child: const Text('Cancelar'),
