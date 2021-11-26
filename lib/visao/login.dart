@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:login_screen/splash.dart';
+import 'package:login_screen/visao/usuario/cad_usuario.dart';
 
 
 class LoginPage extends StatefulWidget{
@@ -35,7 +36,7 @@ class _LoginState extends State<LoginPage>{
               controller: _userController,
               decoration: InputDecoration(
                 icon: const Icon(Icons.supervised_user_circle),
-                labelText: 'Username',
+                labelText: 'CPF',
                 hintText: getExampleUsername() + ', ...',
               ),
               style: const TextStyle(fontSize: 24),
@@ -47,7 +48,7 @@ class _LoginState extends State<LoginPage>{
               controller: _passwordController,
               decoration: const InputDecoration(
                 icon: Icon(Icons.monetization_on),
-                labelText: 'Password',
+                labelText: 'Senha',
                 hintText: '*******',
               ),
               obscureText: true,
@@ -91,7 +92,10 @@ class _LoginState extends State<LoginPage>{
             padding: const EdgeInsets.all(0),
             child: TextButton(
                 onPressed: () {
-                  debugPrint('Criar conta!');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CadUsuario()),
+                  );
                 },
                 child: const Text('Criar conta!')
             )

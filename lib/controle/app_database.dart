@@ -27,6 +27,14 @@ const create_gasto_tb = 'CREATE TABLE gasto('
     'valor FLOAT,'
     'FOREIGN KEY(tipo_gasto_id) REFERENCES tipo_gasto(id));';
 
+const create_usuario_tb = 'CREATE TABLE usuario('
+    'id INTEGER PRIMARY KEY, '
+    'nome VARCHAR(45) NOT NULL, '
+    'sobrenome VARCHAR(90) NOT NULL, '
+    'data_nascimento TIMESTAMP, '
+    'cpf VARCHAR(14) NOT NULL, '
+    'senha TEXT NOT NULL);';
+
 final Future<Database> createDatabase = getDatabasesPath().then((dbPath) {
     final String path = join(dbPath, 'des_mov_db.db');
     return openDatabase(path, onCreate: (db, version){
@@ -34,6 +42,7 @@ final Future<Database> createDatabase = getDatabasesPath().then((dbPath) {
       db.execute(create_tipo_gasto_tb);
       db.execute(create_receita_tb);
       db.execute(create_gasto_tb);
+      db.execute(create_usuario_tb);
     }, version: 1);
   });
 
