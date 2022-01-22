@@ -15,16 +15,7 @@ class Relatorios extends StatefulWidget {
 
 class _RelatoriosState extends State<Relatorios> {
 
-  var _cotacao = '';
-
   Widget build(BuildContext context) {
-
-    RelatorioContoller.get_cotacao_dolar().then(
-            (response) {
-          debugPrint(response.body);
-          _cotacao = json.decode(response.body)['USDBRL']['high'];
-        }
-    );
 
     return FutureBuilder(
         initialData: const [],
